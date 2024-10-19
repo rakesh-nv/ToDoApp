@@ -170,7 +170,7 @@ class _HomeState extends State<Home> {
                       color: Colors.white,
                     ),
                     child: TextField(
-                      onChanged:(value) => _runFilter(value),
+                      onChanged: (value) => _runFilter(value),
                       decoration: const InputDecoration(
                         hintText: 'Search',
                         prefixIcon: Icon(Icons.search),
@@ -238,20 +238,21 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                           ElevatedButton(
-                              onPressed: () {
-                                debugPrint('hello');
-                                _addToDoItem(todoController.text);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blue,
-                                  padding: const EdgeInsets.all(15),
-                                  shape: ContinuousRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20))),
-                              child: const Icon(
-                                Icons.add,
-                                color: Colors.white,
-                                size: 30,
-                              ))
+                            onPressed: () {
+                              debugPrint('hello');
+                              _addToDoItem(todoController.text);
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blue,
+                                padding: const EdgeInsets.all(15),
+                                shape: ContinuousRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20))),
+                            child: const Icon(
+                              Icons.add,
+                              color: Colors.white,
+                              size: 30,
+                            ),
+                          ),
                         ],
                       ),
                     ),
