@@ -115,7 +115,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: tdBGColor,
       appBar: AppBar(
-        backgroundColor: tdBGColor,
+        backgroundColor: Colors.lightBlue,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -133,7 +133,10 @@ class _HomeState extends State<Home> {
                 onPressed: () {
                   Scaffold.of(context).openDrawer();
                 },
-                icon: Icon(Icons.menu),
+                icon: const Icon(
+                  Icons.menu,
+                  size: 30,
+                ),
               );
             }),
             const Text('Todo App'),
@@ -223,8 +226,17 @@ class _HomeState extends State<Home> {
                                 right: 9,
                               ),
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.blue),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: Offset(0, 3)
+                                  )
+                                ],
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white,
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.all(9),
                                 child: TextField(
