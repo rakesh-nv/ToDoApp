@@ -4,13 +4,114 @@ import 'package:todo/constants/colors.dart';
 import 'constants/todo_item.dart';
 import 'model/todo.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   Home({super.key});
 
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   final todosList = ToDo.todoList();
+  List<ToDo> _foundToDo = [];
+  final todoController = TextEditingController();
+
+  @override
+  void initState() {
+    _foundToDo = todosList;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    drawer:
+    Drawer(
+      child: ListView(
+        // Important: Remove any padding from the ListView.
+        padding: EdgeInsets.zero,
+        children: [
+          const DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.blue,
+            ),
+            child: Text('Drawer Header'),
+          ),
+          ListTile(
+            title: const Text('Home'),
+            // selected: _selectedIndex == 0,
+            onTap: () {
+              // Update the state of the app
+              //_onItemTapped(0);
+              // Then close the drawer
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            title: const Text('Business'),
+            //selected: _selectedIndex == 1,
+            onTap: () {
+              // Update the state of the app
+              // _onItemTapped(1);
+              // Then close the drawer
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            title: const Text('School'),
+            // selected: _selectedIndex == 2,
+            onTap: () {
+              // Update the state of the app
+              //  _onItemTapped(2);
+              // Then close the drawer
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+    );
+
+    void _handleToDoChange(ToDo todo) {
+      setState(() {
+        todo.isDone = !todo.isDone;
+      });
+    }
+
+    void _deleteToDoItem(String id) {
+      setState(() {
+        todosList.removeWhere((item) => item.id == id);
+      });
+    }
+
+    void _addToDoItem(String toDo) {
+      setState(
+        () {
+          todosList.add(
+            ToDo(
+              id: DateTime.now().millisecondsSinceEpoch.toString(),
+              todoText: toDo,
+            ),
+          );
+        },
+      );
+      todoController.clear();
+    }
+
+    void _runFilter(String enterdKeyword) {
+      List<ToDo> result = [];
+      if (enterdKeyword.isEmpty) {
+        result = todosList;
+      } else {
+        result = todosList
+            .where((item) => item.todoText!
+                .toLowerCase()
+                .contains(enterdKeyword.toLowerCase()))
+            .toList();
+      }
+      setState(() {
+        _foundToDo = result;
+      });
+    }
+
     return Scaffold(
       backgroundColor: tdBGColor,
       appBar: AppBar(
@@ -18,14 +119,25 @@ class Home extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Padding(
-              padding: EdgeInsets.only(left: 20),
-              child: Icon(
-                Icons.menu,
-                size: 30,
-                color: tdBlack,
-              ),
-            ),
+            // const Padding(
+            //   padding: EdgeInsets.only(left: 20),
+            //   child: Icon(
+            //     Icons.menu,
+            //     size: 30,
+            //     color: tdBlack,
+            //   ),
+            // ),
+
+            Builder(builder: (context) {
+              return IconButton(
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+                icon: Icon(Icons.menu),
+              );
+            }),
+            const Text('Todo App'),
+            // profinle
             Container(
               height: 40,
               width: 40,
@@ -57,8 +169,9 @@ class Home extends StatelessWidget {
                       borderRadius: BorderRadius.circular(40),
                       color: Colors.white,
                     ),
-                    child: const TextField(
-                      decoration: InputDecoration(
+                    child: TextField(
+                      onChanged:(value) => _runFilter(value),
+                      decoration: const InputDecoration(
                         hintText: 'Search',
                         prefixIcon: Icon(Icons.search),
                         contentPadding: EdgeInsets.only(left: 30),
@@ -87,9 +200,11 @@ class Home extends StatelessWidget {
                             ),
                           ),
                         ),
-                        for (ToDo todo in todosList)
+                        for (ToDo todo in _foundToDo.reversed)
                           TodoItem(
                             toDo: todo,
+                            onToDoChanged: _handleToDoChange,
+                            onDeleteItem: _deleteToDoItem,
                           ),
                       ],
                     ),
@@ -110,10 +225,11 @@ class Home extends StatelessWidget {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   color: Colors.blue),
-                              child: const Padding(
-                                padding: EdgeInsets.all(9),
+                              child: Padding(
+                                padding: const EdgeInsets.all(9),
                                 child: TextField(
-                                  decoration: InputDecoration(
+                                  controller: todoController,
+                                  decoration: const InputDecoration(
                                       hintText: 'Add new todo item',
                                       border: OutlineInputBorder(
                                           borderSide: BorderSide.none)),
@@ -124,6 +240,7 @@ class Home extends StatelessWidget {
                           ElevatedButton(
                               onPressed: () {
                                 debugPrint('hello');
+                                _addToDoItem(todoController.text);
                               },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.blue,
