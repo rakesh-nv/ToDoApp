@@ -5,7 +5,7 @@ import 'constants/todo_item.dart';
 import 'model/todo.dart';
 
 class Home extends StatefulWidget {
-  Home({super.key});
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -24,52 +24,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    drawer:
-    Drawer(
-      child: ListView(
-        // Important: Remove any padding from the ListView.
-        padding: EdgeInsets.zero,
-        children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
-            child: Text('Drawer Header'),
-          ),
-          ListTile(
-            title: const Text('Home'),
-            // selected: _selectedIndex == 0,
-            onTap: () {
-              // Update the state of the app
-              //_onItemTapped(0);
-              // Then close the drawer
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: const Text('Business'),
-            //selected: _selectedIndex == 1,
-            onTap: () {
-              // Update the state of the app
-              // _onItemTapped(1);
-              // Then close the drawer
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: const Text('School'),
-            // selected: _selectedIndex == 2,
-            onTap: () {
-              // Update the state of the app
-              //  _onItemTapped(2);
-              // Then close the drawer
-              Navigator.pop(context);
-            },
-          ),
-        ],
-      ),
-    );
-
     void _handleToDoChange(ToDo todo) {
       setState(() {
         todo.isDone = !todo.isDone;
@@ -127,34 +81,53 @@ class _HomeState extends State<Home> {
             //     color: tdBlack,
             //   ),
             // ),
-
-            Builder(builder: (context) {
-              return IconButton(
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-                icon: const Icon(
-                  Icons.menu,
-                  size: 30,
-                ),
-              );
-            }),
             const Text('Todo App'),
             // profinle
-            Container(
-              height: 40,
-              width: 40,
-              margin: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: tdBlack,
-                border: Border.all(color: Colors.black),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Icon(
-                Icons.person,
-                color: Colors.white,
+            InkWell(
+              onTap: () {
+                print("hi");
+              },
+              child: Container(
+                height: 40,
+                width: 40,
+                margin: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: tdBlack,
+                  border: Border.all(color: Colors.black),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Icon(
+                  Icons.person,
+                  color: Colors.white,
+                ),
               ),
             )
+          ],
+        ),
+      ),
+      drawer: Drawer(
+        width: 200,
+        child: ListView(
+          children: <Widget>[
+            const SizedBox(
+              height: 80,
+              child: DrawerHeader(
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 20,
+                      child: Icon(Icons.person),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: Text('Rakesh'),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            ListTile(title: const Text('Login'), onTap: () {}),
+            ListTile(title: const Text('Register'), onTap: () {}),
           ],
         ),
       ),
@@ -203,7 +176,7 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                        for (ToDo todo in _foundToDo.reversed)
+                        for (ToDo todo in _foundToDo)
                           TodoItem(
                             toDo: todo,
                             onToDoChanged: _handleToDoChange,
@@ -216,7 +189,6 @@ class _HomeState extends State<Home> {
                     padding: const EdgeInsets.all(9),
                     child: Container(
                       // color: Colors.orange,
-
                       child: Row(
                         children: [
                           Expanded(
@@ -228,24 +200,20 @@ class _HomeState extends State<Home> {
                               decoration: BoxDecoration(
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: Offset(0, 3)
-                                  )
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 5,
+                                      blurRadius: 7,
+                                      offset: Offset(0, 3))
                                 ],
                                 borderRadius: BorderRadius.circular(10),
                                 color: Colors.white,
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(9),
-                                child: TextField(
-                                  controller: todoController,
-                                  decoration: const InputDecoration(
-                                      hintText: 'Add new todo item',
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide.none)),
-                                ),
+                              child: TextField(
+                                controller: todoController,
+                                decoration: const InputDecoration(
+                                    hintText: 'Add new todo item',
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide.none)),
                               ),
                             ),
                           ),
