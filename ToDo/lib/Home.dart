@@ -13,7 +13,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final todosList = ToDo.todoList();
+
   List<ToDo> _foundToDo = [];
+
   final todoController = TextEditingController();
 
   @override
@@ -176,7 +178,7 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                        for (ToDo todo in _foundToDo)
+                        for (ToDo todo in todosList)
                           TodoItem(
                             toDo: todo,
                             onToDoChanged: _handleToDoChange,
@@ -219,8 +221,9 @@ class _HomeState extends State<Home> {
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              debugPrint('hello');
-                              _addToDoItem(todoController.text);
+                              if (todoController == "") {
+                                _addToDoItem(todoController.text);
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.blue,

@@ -1,3 +1,4 @@
+// TODO Implement this library.
 import 'package:flutter/material.dart';
 import 'package:todo/constants/colors.dart';
 
@@ -8,7 +9,12 @@ class TodoItem extends StatelessWidget {
   final onToDoChanged;
   final onDeleteItem;
 
-  const TodoItem({super.key, required this.toDo,required this.onDeleteItem, this.onToDoChanged});
+  const TodoItem({
+    super.key,
+    required this.toDo,
+    required this.onDeleteItem,
+    this.onToDoChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
