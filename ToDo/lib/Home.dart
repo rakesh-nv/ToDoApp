@@ -42,18 +42,17 @@ class _HomeState extends State<Home> {
       setState(
         () {
           todosList.add(
-            ToDo(
-              id: DateTime.now().millisecondsSinceEpoch.toString(),
-              todoText: toDo,
-            ),
+            ToDo(id: DateTime.now().millisecondsSinceEpoch.toString(), todoText: toDo,),
           );
         },
       );
       todoController.clear();
     }
 
+    //  Filter in search bar
     void _runFilter(String enterdKeyword) {
       List<ToDo> result = [];
+
       if (enterdKeyword.isEmpty) {
         result = todosList;
       } else {
